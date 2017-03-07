@@ -10,8 +10,17 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <img class="img-responsive center-block" class="image" src="{{asset('img/logo.png')}}" alt="">
+                            </div>
+                        </div>
+
+                        <hr>
+
+
                         <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                            <label for="username" class="col-md-4 control-label">E-Mail Address</label>
+                            <label for="username" class="col-md-4 control-label">Username</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="string" class="form-control" name="username" value="{{ old('username') }}" required autofocus>
