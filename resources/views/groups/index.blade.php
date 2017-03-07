@@ -11,9 +11,10 @@
                     </div>
 
                     <div class="panel-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-datatable">
                             <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Actions</th>
                                 </tr>
@@ -21,6 +22,7 @@
                             <tbody>
                                 @foreach($groups as $group)
                                     <tr>
+                                        <td>{{$group->id}}</td>
                                         <td>{{$group->name}}</td>
                                         <td><a href="{{route('groups.edit', $group->id)}}">Edit</a></td>
                                     </tr>

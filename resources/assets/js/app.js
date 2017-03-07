@@ -8,9 +8,12 @@
 require('./bootstrap');
 require('select2');
 require('jquery');
+require('datatables.net');
+require('datatables.net-bs');
 
 $(document).ready(function() {
     $('select').select2();
+    $('.table-datatable').DataTable();
 });
 
 /**

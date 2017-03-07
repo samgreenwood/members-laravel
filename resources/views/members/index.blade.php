@@ -11,9 +11,10 @@
                     </div>
 
                     <div class="panel-body">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered table-datatable">
                             <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Username</th>
                                 <th>Joined</th>
@@ -24,6 +25,7 @@
                             <tbody>
                             @foreach($members as $member)
                                 <tr>
+                                    <td>{{$member->id}}</td>
                                     <td>{{$member->firstname}} {{$member->surname}}</td>
                                     <td>{{$member->username}}</td>
                                     <td>{{$member->joinedAt()}}</td>
