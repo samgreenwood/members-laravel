@@ -48,18 +48,12 @@
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">OAuth</div>
+        <passport-clients></passport-clients>
+        <passport-personal-access-tokens></passport-personal-access-tokens>
+        <passport-authorized-clients></passport-authorized-clients>
 
-                    <div class="panel-body">
-                        <passport-clients></passport-clients>
-                        <passport-authorized-clients></passport-authorized-clients>
-                        <passport-personal-access-tokens></passport-personal-access-tokens>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 

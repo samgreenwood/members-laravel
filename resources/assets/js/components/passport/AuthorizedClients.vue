@@ -10,7 +10,6 @@
 
 <template>
     <div>
-        <div v-if="tokens.length > 0">
             <div class="panel panel-default">
                 <div class="panel-heading">Authorized Applications</div>
 
@@ -50,7 +49,6 @@
                     </table>
                 </div>
             </div>
-        </div>
     </div>
 </template>
 
