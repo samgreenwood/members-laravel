@@ -14,8 +14,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
-Route::group(['name' => 'committee'], function()
-{
+Route::group(['name' => 'committee'], function() {
     Route::resource('groups', 'GroupController');
     Route::resource('members', 'MemberController');
     Route::resource('memberships', 'MembershipController');

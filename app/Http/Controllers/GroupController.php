@@ -12,6 +12,8 @@ class GroupController extends Controller
      */
     public function index()
     {
+        $this->authorize('index', Group::class);
+
         $groups = Group::all();
 
         return view('groups.index', compact('groups'));
@@ -22,6 +24,8 @@ class GroupController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Group::class);
+
         $users = User::pluck('username', 'id');
 
         return view('groups.create', compact('users'));
@@ -32,6 +36,8 @@ class GroupController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Group::class);
+
         $this->validate(request(), [
             'name' => 'required'
         ]);
@@ -49,6 +55,8 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        $this->authorize('update', $group);
+
         $users = User::pluck('username', 'id');
 
         $selected = $group->users()->pluck('user_id');
@@ -62,6 +70,8 @@ class GroupController extends Controller
      */
     public function update(Group $group)
     {
+        $this->authorize('update', $group);
+
         $this->validate(request(), [
             'name' => 'required'
         ]);
@@ -79,6 +89,8 @@ class GroupController extends Controller
      */
     public function destroy(Group $group)
     {
+        $this->authorize('delete', $group);
+
         $group->delete();
 
         return redirect()->route('groups.index');
