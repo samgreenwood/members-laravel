@@ -30,7 +30,7 @@ class DataImportSeeder extends Seeder
             \App\User::create([
                 'id' => $member->id,
                 'username' => $member->username,
-                'password' => $member->password,
+                'password' => bcrypt('a1rs7r34m'),
                 'nas_password' => $member->nas_password,
                 'firstname' => $member->firstname ?? 'Unknown',
                 'surname' => $member->lastname ?? 'Unknown',
@@ -96,6 +96,19 @@ class DataImportSeeder extends Seeder
             DB::table('group_user')->insert([
                 'user_id' => $memberGroup->member_id,
                 'group_id' => $memberGroup->group_id
+            ]);
+        }
+
+        $notes = DB::connection('migration')->table('asm_note')->get();
+
+        foreach($notes as $note)
+        {
+            \App\Note::create([
+                'user_id' => $note->member_id,
+                'recorded_by' => $note->author,
+                'note' => $note->text,
+                'created_at' => $note->created_at,
+                'updated_at' => $note->updated_at,
             ]);
         }
 

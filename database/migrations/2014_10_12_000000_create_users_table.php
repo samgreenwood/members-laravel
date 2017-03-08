@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('firstname');
             $table->string('surname');
 
-            $table->string('username')->unique();
+            $table->string('username');
             $table->string('password');
             $table->string('nas_password')->nullable()->default(null);
 
