@@ -20,8 +20,14 @@ class CreateUsersTable extends Migration
 
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('nas_password')->nullable()->default(null);
 
-            $table->string('email')->unique();
+            $table->longText('photo')->nullable();
+
+            $table->string('email');
+
+            $table->string('phone')->nullable()->default(null);
+            $table->string('mobile')->nullable()->default(null);
 
             $table->date('birthday')->nullable()->default(null);
             $table->string('occupation')->nullable()->default(null);
@@ -31,6 +37,7 @@ class CreateUsersTable extends Migration
             $table->boolean('wia_member')->default(false);
             $table->string('callsign')->nullable();
             $table->string('affiliated_club')->nullable();
+            $table->string('referred_by')->nullable();
 
             $table->string('postal_address_1')->nullable()->default(null);
             $table->string('postal_address_2')->nullable()->default(null);

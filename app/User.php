@@ -79,7 +79,8 @@ class User extends Authenticatable
      */
     public function joinedAt()
     {
-        return $this->memberships()->orderBy('start')->first()->start;
+        $membership = $this->memberships()->orderBy('start')->first();
+        return $membership ? $membership->start : Carbon::now();
     }
 
     /**
@@ -87,7 +88,8 @@ class User extends Authenticatable
      */
     public function expiresAt()
     {
-        return $this->memberships()->orderBy('end', 'desc')->first()->end;
+        $membership = $this->memberships()->orderBy('end', 'desc')->first();
+        return $membership ? $membership->end : Carbon::now();
     }
 
     /**
