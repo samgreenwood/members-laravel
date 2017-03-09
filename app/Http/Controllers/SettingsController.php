@@ -25,6 +25,6 @@ class SettingsController extends Controller
             'forward_email' => request('forward_email', false)
         ]);
 
-        return redirect()->back();
+        return redirect()->route('settings.index')->with('message', 'Settings Updated.');
     }
 }

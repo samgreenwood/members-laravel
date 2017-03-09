@@ -11,6 +11,8 @@ class MemberController extends Controller
 {
     public function index()
     {
+        $this->authorize('index', User::class);
+
         $members = User::all();
 
         return view('members.index', compact('members'));
@@ -18,12 +20,16 @@ class MemberController extends Controller
 
     public function create()
     {
+        $this->authorize('create', User::class);
+
         return view('members.create');
     }
 
     public function store()
     {
-        $v = $this->validate(request(), [
+        $this->authorize('create', User::class);
+
+        $this->validate(request(), [
             'member.firstname' => 'required',
             'member.surname' => 'required',
             'member.username' => 'required|unique:users,username',
@@ -75,6 +81,8 @@ class MemberController extends Controller
 
     public function edit(User $member)
     {
+        $this->authorize('edit', $member);
+
         return view('members.edit', compact('member'));
     }
 
@@ -84,6 +92,7 @@ class MemberController extends Controller
      */
     public function update(User $member)
     {
+        $this->authorize('edit', $member);
 
         $this->validate(request(), [
             'member.firstname' => 'required',
@@ -106,6 +115,7 @@ class MemberController extends Controller
             'member.billing_address_postcode' => 'required',
             'member.billing_address_country' => 'required',
         ]);
+
         $member->update(request('member'));
 
         return redirect()->route('members.index')->with('message', 'Member Details Updated');

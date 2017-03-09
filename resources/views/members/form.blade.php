@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-6">
-        {!! Former::text('member[firstname]', 'First Name') !!}
-        {!! Former::text('member[surname]', 'Surname') !!}
+        {!! Former::text('member[firstname]', 'First Name')->readonly(isset($readonly) ? in_array('firstname', $readonly) : false) !!}
+        {!! Former::text('member[surname]', 'Surname')->readonly(isset($readonly) ? in_array('surname', $readonly) : false) !!}
         {!! Former::text('member[username]', 'Username')->readonly(isset($readonly) ? in_array('username', $readonly) : false) !!}
         {!! Former::email('member[email]', 'Email') !!}
         {!! Former::date('member[birthday]', 'Birthday') !!}
@@ -13,8 +13,8 @@
             'EARC' => 'EARC'
         ]) !!}
         {!! Former::text('member[callsign]', 'Call Sign') !!}
-        {!! Former::select('member[forward_email]', 'Forward Email')->options(['No', 'Yes']) !!}
         {!! Former::text('member[occupation]', 'Occupation') !!}
+        {!! Former::text('member[referred_by]', 'Referred By')->readonly(isset($readonly) ? in_array('referred_by', $readonly) : false) !!}
     </div>
 </div>
 

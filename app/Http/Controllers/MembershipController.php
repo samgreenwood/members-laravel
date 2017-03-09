@@ -11,6 +11,8 @@ class MembershipController extends Controller
 {
     public function create()
     {
+        $this->authorize('create', Membership::class);
+
         $member = User::find(request('member'));
 
         $form = [
@@ -25,6 +27,8 @@ class MembershipController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Membership::class);
+
         $this->validate(request(),[
             'payment.reference' => 'required',
             'payment.type' => 'required',

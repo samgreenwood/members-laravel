@@ -12,6 +12,8 @@ class NoteController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Note::class);
+
         $member = User::find(request('member'));
 
         return view('notes.create', compact('member'));
@@ -22,6 +24,8 @@ class NoteController extends Controller
      */
     public function store()
     {
+        $this->authorize('create', Note::class);
+
         $this->validate(request(), [
             'note' => 'required'
         ]);

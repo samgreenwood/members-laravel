@@ -69,9 +69,7 @@ class User extends Authenticatable
      */
     public function isCommittee()
     {
-        return $this->whereHas('groups', function($query) {
-            $query->where('name', 'Committee');
-        })->exists();
+        return $this->groups()->where('name', 'Committee')->count();
     }
 
     /**

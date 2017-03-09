@@ -12,7 +12,7 @@ require('datatables.net');
 require('datatables.net-bs');
 
 $(document).ready(function() {
-    $('select').select2();
+    $('.select2').select2();
     $('.table-datatable').DataTable();
 });
 

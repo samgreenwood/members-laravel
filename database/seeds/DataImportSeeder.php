@@ -57,36 +57,40 @@ class DataImportSeeder extends Seeder
                 'referred_by' => $member->referred_by ?? '',
             ]);
 
-            $payments = DB::connection('migration')->table('asm_payment')->where('member_id', $member->id)->get();
-            $paymentMethods = DB::connection('migration')->table('asm_payment_map')->get();
+            $paymentMethods = DB::connection('migration')->table('asm_payment_map')->get()->reduce(function($carry, $payment) {
+                $carry[$payment->id] = $payment->payment_description;
+                return $carry;
+            });
 
-            foreach($payments as $payment) {
-                $start = Carbon::createFromFormat('Y-m-d h:i:s', $payment->payed_at);
+            $payments = DB::connection('migration')->select("
+              select asm_payment.*, asm_member.username as admin from asm_payment
+              join asm_member on asm_member.id=asm_payment.entered_by
+              where member_id = $member->id
+            ");
 
-                $paymentMethod = $paymentMethods->filter(function($method) use ($payment) {
-                    return $payment->payment_method == $method->id;
-                })->first()->payment_description;
+            foreach ($payments as $payment) {
+                $amount = floatval($payment->amount);
+                $years = 1;
+                if ($amount > 50) {
+                    $years = $amount % 45 == 0 ? ceil($amount / 45) : ceil($amount / 50);
+                }
 
-                $dbPayment = \App\Payment::create([
-                    'user_id' => $payment->member_id,
-                    'type' => $paymentMethod,
+                $payedAt = Carbon::createFromFormat('Y-m-d h:i:s', $payment->payed_at);
+
+                $payment = \App\Payment::create([
+                    'amount' => $amount,
+                    'date' => $payedAt,
+                    'type' => $paymentMethods[$payment->payment_method],
                     'reference' => $payment->reference ?? 'Unknown',
-                    'amount' => $payment->amount,
-                    'date' => $start
+                    'user_id' => $member->id,
                 ]);
 
-                $memberships = ($payment->amount / 45);
-
-                for($i = 1; $i <= $memberships; $i++) {
-                    \App\Membership::create([
-                        'start' => $start,
-                        'end' => $start->copy()->addYear(),
-                        'user_id' => $payment->member_id,
-                        'payment_id' => $dbPayment->id
-                    ]);
-
-                    $start->addYear();
-                }
+               \App\Membership::create([
+                    'payment_id' => $payment->id,
+                    'user_id' => $member->id,
+                    'start' => $payedAt,
+                    'end' => $payedAt->copy()->addYears($years)
+                ]);
             }
         }
 

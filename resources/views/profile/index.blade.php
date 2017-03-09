@@ -12,7 +12,7 @@
                     <div class="panel-body">
                         {!! Former::open(route('profile.store')) !!}
                         {!! Former::populate(['member' => $member]) !!}
-                        @include('members.form', ['readonly' => ['username']])
+                        @include('members.form', ['readonly' => ['username', 'referred_by', 'firstname', 'surname']])
                         {!! Former::submit('Save')->class('btn btn-primary pull-right') !!}
                         {!! Former::close() !!}
                     </div>
