@@ -81,7 +81,7 @@ class MemberController extends Controller
 
     public function edit(User $member)
     {
-        $this->authorize('edit', $member);
+        $this->authorize('update', $member);
 
         return view('members.edit', compact('member'));
     }
@@ -92,7 +92,7 @@ class MemberController extends Controller
      */
     public function update(User $member)
     {
-        $this->authorize('edit', $member);
+        $this->authorize('update', $member);
 
         $this->validate(request(), [
             'member.firstname' => 'required',
