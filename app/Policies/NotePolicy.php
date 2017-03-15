@@ -10,7 +10,7 @@ class NotePolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can creaet a note.
+     * Determine whether the user can create a note.
      *
      * @param  \App\User  $user
      * @return mixed

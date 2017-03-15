@@ -4,8 +4,10 @@ namespace App\Providers;
 
 use App\Group;
 use App\Membership;
+use App\Note;
 use App\Policies\GroupPolicy;
 use App\Policies\MemberPolicy;
+use App\Policies\MembershipPolicy;
 use App\Policies\NotePolicy;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -22,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Group::class => GroupPolicy::class,
         User::class => MemberPolicy::class,
         Note::class => NotePolicy::class,
-        Membership::class => Membership::class,
+        Membership::class => MembershipPolicy::class,
     ];
 
     /**

@@ -38,6 +38,6 @@ class NoteController extends Controller
             'user_id' => $member->id
         ]);
 
-        return redirect('members.edit', $member->id)->with('message', 'Note Recorded');
+        return redirect()->route('members.edit', $member->id)->with('message', 'Note Recorded');
     }
 }
