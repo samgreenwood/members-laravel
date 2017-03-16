@@ -69,7 +69,24 @@ class User extends Authenticatable
      */
     public function isCommittee()
     {
-        return $this->groups()->where('name', 'Committee')->count();
+        return $this->inGroup('Committee');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isNetworkTeam()
+    {
+        return $this->inGroup('Net Admins');
+    }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    public function inGroup($name)
+    {
+        return $this->groups()->where('name', $name)->count();
     }
 
     /**

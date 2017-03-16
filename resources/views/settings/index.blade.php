@@ -19,7 +19,11 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
+            @if(auth()->user()->isNetworkTeam())
+                <div class="col-md-6">
+            @else
+                <div class="col-md-12">
+            @endif
                 <div class="panel panel-default">
                     <div class="panel-heading">Change Auth Password</div>
 
@@ -34,20 +38,22 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Change NAS Password</div>
-                    <div class="panel-body">
-                        {!! Former::open(route('password.update.auth')) !!}
-                        {!! Former::password('password', 'New Password')->help('This password is stored insecurely.') !!}
-                        {!! Former::password('password_confirmation', 'New Password Confirmation') !!}
+            @if(auth()->user()->isNetworkTeam())
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Change NAS Password</div>
+                        <div class="panel-body">
+                            {!! Former::open(route('password.update.nas')) !!}
+                            {!! Former::password('nas_password', 'New Password') !!}
+                            {!! Former::password('nas_password_confirmation', 'New Password Confirmation') !!}
 
-                        {!! Former::submit('Change NAS Password')->class('btn btn-primary pull-right') !!}
-                        {!! Former::close() !!}
+                            {!! Former::submit('Change NAS Password')->class('btn btn-primary pull-right') !!}
+                            {!! Former::close() !!}
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
 
         <passport-clients></passport-clients>
