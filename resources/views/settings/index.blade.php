@@ -31,25 +31,21 @@
                         {!! Former::open(route('password.update.auth')) !!}
                         {!! Former::password('password', 'New Password') !!}
                         {!! Former::password('password_confirmation', 'New Password Confirmation') !!}
-
                         {!! Former::submit('Change Password')->class('btn btn-primary pull-right') !!}
                         {!! Former::close() !!}
-
                     </div>
                 </div>
             </div>
             @if(auth()->user()->isNetworkTeam())
                 <div class="col-md-6">
                     <div class="panel panel-default">
-                        <div class="panel-heading">Change NAS Password</div>
+                        <div class="panel-heading">Change Network Password</div>
                         <div class="panel-body">
                             {!! Former::open(route('password.update.nas')) !!}
                             {!! Former::password('nas_password', 'New Password') !!}
                             {!! Former::password('nas_password_confirmation', 'New Password Confirmation') !!}
-
-                            {!! Former::submit('Change NAS Password')->class('btn btn-primary pull-right') !!}
+                            {!! Former::submit('Change Network Password')->class('btn btn-primary pull-right') !!}
                             {!! Former::close() !!}
-
                         </div>
                     </div>
                 </div>
