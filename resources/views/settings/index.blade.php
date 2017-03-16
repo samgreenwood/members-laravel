@@ -29,7 +29,7 @@
 
                     <div class="panel-body">
                         {!! Former::open(route('password.update.auth')) !!}
-                        {!! Former::password('password', 'New Password')->help('&nbsp;')!!}
+                        {!! Former::password('password', 'New Password') !!}
                         {!! Former::password('password_confirmation', 'New Password Confirmation') !!}
 
                         {!! Former::submit('Change Password')->class('btn btn-primary pull-right') !!}
