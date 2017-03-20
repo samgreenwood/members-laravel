@@ -7,7 +7,7 @@
 	'automatic_label'         => true,
 
 	// The default form type
-	'default_form_type'       => 'horizontal',
+	'default_form_type'       => 'vertical',
 
 	// Validation
 	////////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@
 
 	// Whether checkboxes should always be present in the POST data,
 	// no matter if you checked them or not
-	'push_checkboxes'         => false,
+	'push_checkboxes'         => true,
 
 	// The value a checkbox will have in the POST array if unchecked
 	'unchecked_value'         => 0,
