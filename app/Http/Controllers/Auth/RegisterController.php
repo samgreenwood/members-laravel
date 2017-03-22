@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\CommitteeOnlineSignUp;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -27,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/thankyou-for-registering';
 
     /**
      * Create a new controller instance.
@@ -48,12 +52,40 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'firstname' => 'required|max:255',
-            'surname' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'username' => 'required|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'member.username' => 'required|unique:users,username',
+            'member.password' => 'required|confirmed',
+            'member.firstname' => 'required',
+            'member.surname' => 'required',
+            'member.birthday' => 'required|date',
+            'member.wia_member' => 'required',
+            'member.affiliated_club' => 'required',
+            'member.email' => 'required|unique:users,email',
+            'member.occupation' => 'required',
+            'member.postal_address_1' => 'required',
+            'member.postal_address_state' => 'required',
+            'member.postal_address_suburb' => 'required',
+            'member.postal_address_postcode' => 'required',
+            'member.postal_address_country' => 'required',
+            'member.billing_address_1' => 'required',
+            'member.billing_address_state' => 'required',
+            'member.billing_address_suburb' => 'required',
+            'member.billing_address_postcode' => 'required',
+            'member.billing_address_country' => 'required',
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->input('member'))));
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
 
     /**
@@ -64,12 +96,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'firstname' => $data['firstname'],
-            'surname' => $data['surname'],
-            'email' => $data['email'],
-            'username' => $data['username'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $data['password'] = bcrypt($data['password']);
+
+        unset($data['approved_at']);
+        unset($data['password_confirmation']);
+
+        $data['approval_token'] = sha1(uniqid('approval'));
+
+        return User::create($data);
+    }
+
+    /**
+     * The user has been registered.
+     *
+     * @param  Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        Mail::to('committee@air-stream.org')->send(new CommitteeOnlineSignUp($user));
+
+        return redirect($this->redirectPath());
     }
 }

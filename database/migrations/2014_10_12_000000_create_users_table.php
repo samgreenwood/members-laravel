@@ -53,6 +53,8 @@ class CreateUsersTable extends Migration
             $table->string('billing_address_postcode')->nullable()->default(null);
             $table->string('billing_address_country')->nullable()->default(null);
 
+            $table->dateTime('approved_at')->nullable()->default(null);
+            $table->string('approval_token')->nullable()->default(null);
 
             $table->rememberToken();
             $table->timestamps();

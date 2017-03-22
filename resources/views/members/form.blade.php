@@ -3,6 +3,10 @@
         {!! Former::text('member[firstname]', 'First Name')->readonly(isset($readonly) ? in_array('firstname', $readonly) : false) !!}
         {!! Former::text('member[surname]', 'Surname')->readonly(isset($readonly) ? in_array('surname', $readonly) : false) !!}
         {!! Former::text('member[username]', 'Username')->readonly(isset($readonly) ? in_array('username', $readonly) : false) !!}
+        @if(isset($registrationForm) && $registrationForm)
+            {!! Former::password('member[password]', 'Password') !!}
+            {!! Former::password('member[password_confirmation]', 'Confirm Password') !!}
+        @endif
         {!! Former::email('member[email]', 'Email') !!}
         {!! Former::date('member[birthday]', 'Birthday') !!}
     </div>

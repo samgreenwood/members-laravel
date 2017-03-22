@@ -20,7 +20,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'birthday' => 'date'
+        'birthday' => 'date',
+        'approved_at' => 'date',
     ];
 
     /**
@@ -31,6 +32,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @param $token
+     * @return mixed
+     */
+    public static function findByApprovalToken($token)
+    {
+        return static::where('approval_token', $token)->firstOrFail();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -61,7 +71,7 @@ class User extends Authenticatable
      */
     public function notes()
     {
-        return $this->hasMany(Note::class);
+        return $this->hasMany(Note::class)->orderBy('created_at', 'desc');
     }
 
     /**
