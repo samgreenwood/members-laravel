@@ -9,6 +9,7 @@
         @endif
         {!! Former::email('member[email]', 'Email') !!}
         {!! Former::date('member[birthday]', 'Birthday') !!}
+        {!! Former::text('member[mobile]', 'Mobile') !!}
     </div>
     <div class="col-md-6">
         {!! Former::select('member[wia_member]', 'WIA Member')->options(['No', 'Yes']) !!}
@@ -19,6 +20,7 @@
         {!! Former::text('member[callsign]', 'Call Sign') !!}
         {!! Former::text('member[occupation]', 'Occupation') !!}
         {!! Former::text('member[referred_by]', 'Referred By')->readonly(isset($readonly) ? in_array('referred_by', $readonly) : false) !!}
+        {!! Former::text('member[phone]', 'Phone') !!}
     </div>
 </div>
 
