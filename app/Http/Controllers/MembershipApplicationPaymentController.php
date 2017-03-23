@@ -48,11 +48,16 @@ class MembershipApplicationPaymentController extends Controller
                 'date' => Carbon::now(),
             ]);
 
-            Membership::create([
+            $membership = Membership::create([
                 'user_id' => $user->id,
                 'payment_id' => $payment->id,
                 'start' => Carbon::now(),
                 'end' => Carbon::now()->addYear()
+            ]);
+
+            $user->update([
+                'joined_at' => $membership->start,
+                'expires_at' => $membership->end
             ]);
 
             auth()->login($user);

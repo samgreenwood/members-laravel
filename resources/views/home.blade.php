@@ -11,7 +11,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <p>Welcome, {{auth()->user()->username}}.</p>
-                            <p>Your membership expires on <strong>{{auth()->user()->expiresAt()}}</strong> ({{auth()->user()->expiresAt()->diffForHumans()}})</p>
+                            <p>Your membership expires on <strong>{{auth()->user()->expires_at}}</strong> ({{auth()->user()->expires_at->diffForHumans()}})</p>
                         </div>
                         <div class="col-md-6">
 

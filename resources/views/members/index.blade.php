@@ -28,8 +28,8 @@
                                     <td>{{$member->id}}</td>
                                     <td>{{$member->firstname}} {{$member->surname}}</td>
                                     <td>{{$member->username}}</td>
-                                    <td>{{$member->joinedAt()}}</td>
-                                    <td>{{$member->expiresAt()}}</td>
+                                    <td>{{$member->joined_at}}</td>
+                                    <td>{{$member->expires_at}}</td>
                                     <td><a href="{{route('members.edit', $member->id)}}">Edit</a></td>
                                 </tr>
                             @endforeach

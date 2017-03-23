@@ -55,7 +55,9 @@ class DataImportSeeder extends Seeder
                 'callsign' => $member->ham_callsign,
                 'wia_member' => $member->wia ?? false,
                 'referred_by' => $member->referred_by ?? '',
-                'approved' => true,
+                'approved_at' => $member->joined,
+                'joined_at' => $member->joined,
+                'expires_at' => $member->expiry,
             ]);
 
             $paymentMethods = DB::connection('migration')->table('asm_payment_map')->get()->reduce(function($carry, $payment) {

@@ -56,6 +56,9 @@ class CreateUsersTable extends Migration
             $table->dateTime('approved_at')->nullable()->default(null);
             $table->string('approval_token')->nullable()->default(null);
 
+            $table->datetime('joined_at');
+            $table->datetime('expires_at');
+
             $table->rememberToken();
             $table->timestamps();
         });

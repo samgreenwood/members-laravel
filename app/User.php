@@ -22,6 +22,8 @@ class User extends Authenticatable
     protected $casts = [
         'birthday' => 'date',
         'approved_at' => 'date',
+        'joined_at' => 'date',
+        'expires_at' => 'date',
     ];
 
     /**
@@ -100,28 +102,10 @@ class User extends Authenticatable
     }
 
     /**
-     * @return Carbon
-     */
-    public function joinedAt()
-    {
-        $membership = $this->memberships()->orderBy('start')->first();
-        return $membership ? $membership->start : Carbon::now();
-    }
-
-    /**
-     * @return Carbon
-     */
-    public function expiresAt()
-    {
-        $membership = $this->memberships()->orderBy('end', 'desc')->first();
-        return $membership ? $membership->end : Carbon::now();
-    }
-
-    /**
      * @return bool
      */
     public function isExpired()
     {
-        return $this->expiresAt() < Carbon::now();
+        return $this->expires_at < Carbon::now();
     }
 }
