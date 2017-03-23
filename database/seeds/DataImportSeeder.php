@@ -27,7 +27,7 @@ class DataImportSeeder extends Seeder
         $members = DB::connection('migration')->table('asm_member')->get();
 
         foreach($members as $member) {
-            \App\User::create([
+            $user = \App\User::create([
                 'id' => $member->id,
                 'username' => $member->username,
                 'password' => bcrypt('a1rs7r34m'),
@@ -88,12 +88,17 @@ class DataImportSeeder extends Seeder
                     'user_id' => $member->id,
                 ]);
 
-               \App\Membership::create([
+               $membership = \App\Membership::create([
                     'payment_id' => $payment->id,
                     'user_id' => $member->id,
                     'start' => $payedAt,
                     'end' => $payedAt->copy()->addYears($years)
                 ]);
+
+               if($user->expires_at < $membership->end)
+               {
+                   $user->update(['expires_at' => $membership->end]);
+               }
             }
         }
 
