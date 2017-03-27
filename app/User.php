@@ -108,4 +108,52 @@ class User extends Authenticatable
     {
         return $this->expires_at < Carbon::now();
     }
+
+    /**
+     * @param $amount
+     * @param $reference
+     * @param Carbon|null $startDate
+     * @return Membership
+     */
+    public function renewMembership($amount, $reference)
+    {
+        $payment = Payment::create([
+            'user_id' => $this->id,
+            'type' => 'Credit Card',
+            'amount' => $amount,
+            'reference' => $reference,
+            'date' => Carbon::now(),
+        ]);
+
+        $membership = Membership::create([
+            'user_id' => $this->id,
+            'payment_id' => $payment->id,
+            'start' => $this->renewal_start_date,
+            'end' => $this->renewal_start_date->copy()->addYear()
+        ]);
+
+        $this->update([
+            'expires_at' => $membership->end
+        ]);
+
+        return $membership;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRenewalAmountAttribute()
+    {
+        $amount =  $this->isExpired() ? config('membership.rate') : config('membership.discount_rate');
+        
+        return number_format($amount, 2);
+    }
+
+    /**
+     * @return Carbon
+     */
+    public function getRenewalStartDateAttribute()
+    {
+        return $this->expires_at < Carbon::now() ? Carbon::now() : $this->expires_at;
+    }
 }

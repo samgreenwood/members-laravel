@@ -40,25 +40,7 @@ class MembershipApplicationPaymentController extends Controller
         {
             $user = User::findByApprovalToken($request->input('approval_token'));
 
-            $payment = Payment::create([
-                'user_id' => $user->id,
-                'type' => 'Credit Card',
-                'amount' => $result->transaction->amount,
-                'reference' => $result->transaction->id,
-                'date' => Carbon::now(),
-            ]);
-
-            $membership = Membership::create([
-                'user_id' => $user->id,
-                'payment_id' => $payment->id,
-                'start' => Carbon::now(),
-                'end' => Carbon::now()->addYear()
-            ]);
-
-            $user->update([
-                'joined_at' => $membership->start,
-                'expires_at' => $membership->end
-            ]);
+            $user->renewMembership($result->transaction->amount, $result->transaction->id);
 
             auth()->login($user);
 

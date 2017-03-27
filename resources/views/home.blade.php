@@ -12,6 +12,7 @@
                         <div class="col-md-6">
                             <p>Welcome, {{auth()->user()->username}}.</p>
                             <p>Your membership expires on <strong>{{auth()->user()->expires_at}}</strong> ({{auth()->user()->expires_at->diffForHumans()}})</p>
+                            <a class="btn btn-primary" href="{{route('membership.renew.index')}}">Renew Membership</a>
                         </div>
                         <div class="col-md-6">
 

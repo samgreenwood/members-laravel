@@ -14,7 +14,7 @@ Auth::routes();
 
 Route::group(['middleware' => 'auth'], function()
 {
-    Route::get('/', 'HomeController@index');
+    Route::get('/', ['as' => 'dashboard', 'uses' => 'HomeController@index']);
 
     Route::group(['name' => 'committee'], function() {
         Route::resource('groups', 'GroupController');
@@ -30,6 +30,9 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::get('/members/{user}/application', ['as' => 'membership.application', 'uses' => 'MembershipApplicationController@show']);
     Route::post('/members/{user}/application', ['as' => 'membership.application.approve', 'uses' => 'MembershipApplicationController@update']);
+
+    Route::get('/renew-membership', ['as' => 'membership.renew.index', 'uses' => 'RenewMembershipController@index']);
+    Route::post('/renew-membership', ['as' => 'membership.renew.store', 'uses' => 'RenewMembershipController@store']);
 });
 
 Route::get('/membership-payment/{approval_token}', ['as' => 'membership.application.payment', 'uses' => 'MembershipApplicationPaymentController@index']);
