@@ -1,5 +1,5 @@
 @component('mail::message')
-# Your Air-Stream Wireless Inc Membership has been approved.
+# Your Air-Stream Wireless Membership has been approved!
 
 Hi {{$user->firstname}} {{$user->surname}},
 
@@ -11,6 +11,6 @@ Once payment has been recieved your membership will become active and you will b
 Pay Membership
 @endcomponent
 
-Thanks,<br>
+Thanks,
 The Air-Stream Committee
 @endcomponent
