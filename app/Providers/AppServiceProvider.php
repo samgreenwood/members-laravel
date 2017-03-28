@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\User\LdapObserver as UserLdapObserver;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -15,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(UserLdapObserver::class);
     }
 
     /**
