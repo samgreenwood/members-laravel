@@ -49,7 +49,7 @@ class LdapObserver
                 $info['objectclass'][1] = 'posixGroup';
                 $info['cn'] = $groupName;
                 $info['gidnumber'] = 10000 + $this->getId();
-                $info['memberUid'] = $group->users->pluck('username');
+                $info['memberUid'] = $group->users->pluck('username')->toArray();
 
                 $sr = ldap_search($conn, $ldapBase, "cn=" . $groupName);
 
