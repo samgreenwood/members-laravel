@@ -39,7 +39,7 @@ class GroupController extends Controller
         $this->authorize('create', Group::class);
 
         $this->validate(request(), [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
         $group = Group::create(request()->only('name'));
@@ -51,6 +51,7 @@ class GroupController extends Controller
 
     /**
      * @param Group $group
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function edit(Group $group)
@@ -66,6 +67,7 @@ class GroupController extends Controller
 
     /**
      * @param Group $group
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Group $group)
@@ -73,18 +75,19 @@ class GroupController extends Controller
         $this->authorize('update', $group);
 
         $this->validate(request(), [
-            'name' => 'required'
+            'name' => 'required',
         ]);
 
-       $group->update(request()->only('name'));
+        $group->update(request()->only('name'));
 
-       $group->users()->sync(request('users', []));
+        $group->users()->sync(request('users', []));
 
         return redirect()->route('groups.index')->with('message', 'Group Updated');
     }
 
     /**
      * @param Group $group
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Group $group)
@@ -95,5 +98,4 @@ class GroupController extends Controller
 
         return redirect()->route('groups.index');
     }
-
 }

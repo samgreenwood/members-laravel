@@ -31,8 +31,6 @@ class LoginController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -49,11 +47,11 @@ class LoginController extends Controller
         return 'username';
     }
 
-
     /**
      * Attempt to log the user into the application.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return bool
      */
     protected function attemptLogin(Request $request)
@@ -62,11 +60,13 @@ class LoginController extends Controller
             $this->credentials($request), $request->has('remember')
         );
 
-        if($success) return $success;
+        if ($success) {
+            return $success;
+        }
 
-        if($this->isLegacyAuthentication()) {
+        if ($this->isLegacyAuthentication()) {
             User::where('username', $request->input('username'))->update([
-                'password' => bcrypt($request->input('password'))
+                'password' => bcrypt($request->input('password')),
             ]);
 
             return true;
@@ -82,7 +82,9 @@ class LoginController extends Controller
     {
         $user = User::where('username', request('username'))->first();
 
-        if(!$user) return false;
+        if (!$user) {
+            return false;
+        }
 
         $raw = request('password');
         $encoded = crypt($raw, null);

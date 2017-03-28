@@ -23,13 +23,15 @@ class LdapObserver
     }
 
     /**
-     * Create the user in LDAP
+     * Create the user in LDAP.
      *
      * @param Group $group
      */
     private function sync(Group $group)
     {
-        if ( ! config('ldap.sync')) return;
+        if (!config('ldap.sync')) {
+            return;
+        }
 
         $ldapUrl = config('ldap.url');
         $ldapBase = config('ldap.base');
@@ -38,12 +40,12 @@ class LdapObserver
 
         $groupName = strtolower($group->name);
 
-        $dn = sprintf("cn=%s,ou=groups,%s", $groupName, $ldapBase);
+        $dn = sprintf('cn=%s,ou=groups,%s', $groupName, $ldapBase);
 
         $conn = ldap_connect($ldapUrl);
 
         if ($conn) {
-            $r = ldap_bind($conn, sprintf("cn=%s,%s", $ldapUsername, $ldapBase), $ldapPassword);
+            $r = ldap_bind($conn, sprintf('cn=%s,%s', $ldapUsername, $ldapBase), $ldapPassword);
             if ($r) {
                 $info['objectclass'][0] = 'top';
                 $info['objectclass'][1] = 'posixGroup';
@@ -51,7 +53,7 @@ class LdapObserver
                 $info['gidnumber'] = 10000 + $this->getId();
                 $info['memberUid'] = $group->users->pluck('username')->toArray();
 
-                $sr = ldap_search($conn, $ldapBase, "cn=" . $groupName);
+                $sr = ldap_search($conn, $ldapBase, 'cn='.$groupName);
 
                 if (ldap_count_entries($conn, $sr) > 0) {
                     ldap_delete($conn, $dn);
@@ -63,4 +65,3 @@ class LdapObserver
         }
     }
 }
-

@@ -12,11 +12,11 @@ class ChangePasswordController extends Controller
     public function auth()
     {
         $this->validate(request(), [
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
         ]);
 
         auth()->user()->update([
-            'password' => bcrypt(request('password'))
+            'password' => bcrypt(request('password')),
         ]);
 
         return redirect()->route('settings.index')->with('message', 'Password Updated');
@@ -28,11 +28,11 @@ class ChangePasswordController extends Controller
     public function nas()
     {
         $this->validate(request(), [
-            'nas_password' => 'required|confirmed'
+            'nas_password' => 'required|confirmed',
         ]);
 
         auth()->user()->update([
-            'nas_password' => bcrypt(request('nas_password'))
+            'nas_password' => bcrypt(request('nas_password')),
         ]);
 
         return redirect()->route('settings.index')->with('message', 'NAS Password Updated');

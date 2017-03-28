@@ -12,12 +12,12 @@ class NotePolicy
     /**
      * Determine whether the user can create a note.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
     {
         return $user->isCommittee();
     }
-
 }

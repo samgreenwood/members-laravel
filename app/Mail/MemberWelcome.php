@@ -6,7 +6,6 @@ use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class MemberWelcome extends Mailable
 {
@@ -36,7 +35,7 @@ class MemberWelcome extends Mailable
     {
         return $this->markdown('emails.members.welcome', [
             'user' => $this->user,
-            'temporaryPassword' => $this->temporaryPassword
+            'temporaryPassword' => $this->temporaryPassword,
         ]);
     }
 }

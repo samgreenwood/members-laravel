@@ -23,25 +23,27 @@ class LdapObserver
     }
 
     /**
-     * Create the user in LDAP
+     * Create the user in LDAP.
      *
      * @param User $user
      */
     private function sync(User $user)
     {
-        if(!config('ldap.sync')) return;
-        
+        if (!config('ldap.sync')) {
+            return;
+        }
+
         $ldapUrl = config('ldap.url');
         $ldapBase = config('ldap.base');
         $ldapUsername = config('ldap.username');
         $ldapPassword = config('ldap.password');
 
-        $dn = sprintf("uid=%s,ou=people,%s", $user->username, $ldapBase);
+        $dn = sprintf('uid=%s,ou=people,%s', $user->username, $ldapBase);
 
         $conn = ldap_connect($ldapUrl);
 
         if ($conn) {
-            $r = ldap_bind($conn, sprintf("cn=%s,%s", $ldapUsername, $ldapBase), $ldapPassword);
+            $r = ldap_bind($conn, sprintf('cn=%s,%s', $ldapUsername, $ldapBase), $ldapPassword);
             if ($r) {
                 $info['objectclass'][0] = 'person';
                 $info['objectclass'][1] = 'organizationalPerson';
@@ -52,13 +54,13 @@ class LdapObserver
                 $info['userpassword'] = $user->password;
                 $info['givenname'] = $user->firstname;
                 $info['sn'] = $user->lastname;
-                $info['cn'] = $user->firstname . " " . $user->lastname;
+                $info['cn'] = $user->firstname.' '.$user->lastname;
                 $info['uidnumber'] = 10000 + $user->id;
                 $info['gidnumber'] = 10000;
-                $info['homedirectory'] = "/home/air-stream/" . $user->username;
-                $info['mail'] = $user->username . "@air-stream.org";
+                $info['homedirectory'] = '/home/air-stream/'.$user->username;
+                $info['mail'] = $user->username.'@air-stream.org';
                 $info['accountstatus'] = 'active';
-                $info['mailMessageStore'] = '/air-stream/' . $user->username . "/";
+                $info['mailMessageStore'] = '/air-stream/'.$user->username.'/';
                 $info['deliveryMode'] = 'localdelivery';
 
                 if ($user->forward_email) {
@@ -66,7 +68,7 @@ class LdapObserver
                     $info['deliveryMode'] = 'forwardonly';
                 }
 
-                $sr = ldap_search($conn, $ldapBase, "uid=" . $user->username);
+                $sr = ldap_search($conn, $ldapBase, 'uid='.$user->username);
 
                 if (ldap_count_entries($conn, $sr) > 0) {
                     ldap_delete($conn, $dn);
@@ -74,9 +76,8 @@ class LdapObserver
 
                 ldap_add($conn, $dn, $info);
             }
-            
+
             ldap_close($conn);
         }
     }
 }
-

@@ -10,7 +10,7 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = [
-            'forward_email' => auth()->user()->forward_email
+            'forward_email' => auth()->user()->forward_email,
         ];
 
         return view('settings.index', compact('settings'));
@@ -22,7 +22,7 @@ class SettingsController extends Controller
     public function store()
     {
         auth()->user()->update([
-            'forward_email' => request('forward_email', false)
+            'forward_email' => request('forward_email', false),
         ]);
 
         return redirect()->route('settings.index')->with('message', 'Settings Updated.');

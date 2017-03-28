@@ -21,24 +21,24 @@ class RenewMembershipController extends Controller
 
     /**
      * @param Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
         $this->validate($request, [
-            'payment_method_nonce' => 'required'
+            'payment_method_nonce' => 'required',
         ]);
 
         $result = Braintree_Transaction::sale([
             'amount' => $request->user()->renewal_amount,
             'paymentMethodNonce' => $request->input('payment_method_nonce'),
             'options' => [
-                'submitForSettlement' => True
-            ]
+                'submitForSettlement' => true,
+            ],
         ]);
 
-        if($result->success)
-        {
+        if ($result->success) {
             auth()->user()->renewMembership($result->transaction->amount, $result->transaction->id);
 
             return redirect()->route('dashboard')->with('message', 'Payment successful, thankyou for renewing!');

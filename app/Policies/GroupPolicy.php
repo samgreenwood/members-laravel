@@ -13,7 +13,8 @@ class GroupPolicy
     /**
      * Determine whether the user can list the groups.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function index(User $user)
@@ -24,8 +25,9 @@ class GroupPolicy
     /**
      * Determine whether the user can view the group.
      *
-     * @param  \App\User  $user
-     * @param  \App\Group  $group
+     * @param \App\User  $user
+     * @param \App\Group $group
+     *
      * @return mixed
      */
     public function view(User $user, Group $group)
@@ -36,7 +38,8 @@ class GroupPolicy
     /**
      * Determine whether the user can create groups.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
@@ -47,8 +50,9 @@ class GroupPolicy
     /**
      * Determine whether the user can update the group.
      *
-     * @param  \App\User  $user
-     * @param  \App\Group  $group
+     * @param \App\User  $user
+     * @param \App\Group $group
+     *
      * @return mixed
      */
     public function update(User $user, Group $group)
@@ -59,8 +63,9 @@ class GroupPolicy
     /**
      * Determine whether the user can delete the group.
      *
-     * @param  \App\User  $user
-     * @param  \App\Group  $group
+     * @param \App\User  $user
+     * @param \App\Group $group
+     *
      * @return mixed
      */
     public function delete(User $user, Group $group)

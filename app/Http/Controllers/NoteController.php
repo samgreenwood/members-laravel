@@ -27,7 +27,7 @@ class NoteController extends Controller
         $this->authorize('create', Note::class);
 
         $this->validate(request(), [
-            'note' => 'required'
+            'note' => 'required',
         ]);
 
         $member = User::find(request('member'));
@@ -35,7 +35,7 @@ class NoteController extends Controller
         Note::create([
             'note' => request('note'),
             'recorded_by' => auth()->user()->id,
-            'user_id' => $member->id
+            'user_id' => $member->id,
         ]);
 
         return redirect()->route('members.edit', $member->id)->with('message', 'Note Recorded');

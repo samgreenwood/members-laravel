@@ -16,7 +16,7 @@ class Membership extends Model
      */
     protected $casts = [
         'start' => 'date',
-        'end' => 'date'
+        'end' => 'date',
     ];
 
     /**

@@ -54,7 +54,7 @@ class MemberController extends Controller
             'payment.reference' => 'required',
             'payment.date' => 'required|date',
             'membership.start' => 'required|date',
-            'membership.duration' => 'required'
+            'membership.duration' => 'required',
         ]);
 
         $member = User::create(array_merge(
@@ -67,13 +67,13 @@ class MemberController extends Controller
             ['user_id' => $member->id]
         ));
 
-        $start = Carbon::createFromFormat('Y-m-d',request('membership.start'));
+        $start = Carbon::createFromFormat('Y-m-d', request('membership.start'));
         $end = $start->copy()->addYear();
 
         Membership::create([
             'start' => $start,
             'end' => $end,
-            'payment_id' => $payment->id
+            'payment_id' => $payment->id,
         ]);
 
         return redirect()->route('members.index')->with('message', 'Member Registered');
@@ -88,6 +88,7 @@ class MemberController extends Controller
 
     /**
      * @param User $member
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(User $member)

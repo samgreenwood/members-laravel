@@ -16,7 +16,7 @@ class MembershipController extends Controller
         $member = User::find(request('member'));
 
         $form = [
-            'payment' => ['amount' => $member->isExpired() ? 50 : 45]
+            'payment' => ['amount' => $member->isExpired() ? 50 : 45],
         ];
 
         return view('memberships.create', compact('member', 'form'));
@@ -29,7 +29,7 @@ class MembershipController extends Controller
     {
         $this->authorize('create', Membership::class);
 
-        $this->validate(request(),[
+        $this->validate(request(), [
             'payment.reference' => 'required',
             'payment.type' => 'required',
             'payment.date' => 'required|date',

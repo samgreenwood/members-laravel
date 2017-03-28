@@ -12,7 +12,8 @@ class MemberPolicy
     /**
      * Determine whether the user can view the list of members.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function index(User $user)
@@ -23,8 +24,9 @@ class MemberPolicy
     /**
      * Determine whether the user can view the member.
      *
-     * @param  \App\User  $user
-     * @param  \App\User  $member
+     * @param \App\User $user
+     * @param \App\User $member
+     *
      * @return mixed
      */
     public function view(User $user, User $member)
@@ -35,7 +37,8 @@ class MemberPolicy
     /**
      * Determine whether the user can create members.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
@@ -46,8 +49,9 @@ class MemberPolicy
     /**
      * Determine whether the user can update the member.
      *
-     * @param  \App\User  $user
-     * @param  \App\User  $member
+     * @param \App\User $user
+     * @param \App\User $member
+     *
      * @return mixed
      */
     public function update(User $user, User $member)
@@ -58,8 +62,9 @@ class MemberPolicy
     /**
      * Determine whether the user can delete the member.
      *
-     * @param  \App\User  $user
-     * @param  \App\User  $member
+     * @param \App\User $user
+     * @param \App\User $member
+     *
      * @return mixed
      */
     public function delete(User $user, User $member)

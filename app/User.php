@@ -37,6 +37,7 @@ class User extends Authenticatable
 
     /**
      * @param $token
+     *
      * @return mixed
      */
     public static function findByApprovalToken($token)
@@ -94,6 +95,7 @@ class User extends Authenticatable
 
     /**
      * @param $name
+     *
      * @return mixed
      */
     public function inGroup($name)
@@ -113,6 +115,7 @@ class User extends Authenticatable
      * @param $amount
      * @param $reference
      * @param Carbon|null $startDate
+     *
      * @return Membership
      */
     public function renewMembership($amount, $reference)
@@ -129,11 +132,11 @@ class User extends Authenticatable
             'user_id' => $this->id,
             'payment_id' => $payment->id,
             'start' => $this->renewal_start_date,
-            'end' => $this->renewal_start_date->copy()->addYear()
+            'end' => $this->renewal_start_date->copy()->addYear(),
         ]);
 
         $this->update([
-            'expires_at' => $membership->end
+            'expires_at' => $membership->end,
         ]);
 
         return $membership;
@@ -144,8 +147,8 @@ class User extends Authenticatable
      */
     public function getRenewalAmountAttribute()
     {
-        $amount =  $this->isExpired() ? config('membership.rate') : config('membership.discount_rate');
-        
+        $amount = $this->isExpired() ? config('membership.rate') : config('membership.discount_rate');
+
         return number_format($amount, 2);
     }
 

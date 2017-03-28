@@ -12,12 +12,12 @@ class MembershipPolicy
     /**
      * Determine whether the user can creae a membership.
      *
-     * @param  \App\User  $user
+     * @param \App\User $user
+     *
      * @return mixed
      */
     public function create(User $user)
     {
         return $user->isCommittee();
     }
-
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Observers;
+namespace App\Observers\User;
 
 use App\User;
 use App\Mail\MemberWelcome;
@@ -13,8 +13,7 @@ class EmailObserver
      */
     public function saved(User $user)
     {
-        if($user->isDirty('approved_at') && $user->approved_at != null)
-        {
+        if ($user->isDirty('approved_at') && $user->approved_at != null) {
             $password = uniqid('airstream');
 
             $user->update(['password' => bcrypt($password)]);
