@@ -102,7 +102,6 @@ class MemberController extends Controller
             'member.birthday' => 'required|date',
             'member.wia_member' => 'required',
             'member.affiliated_club' => 'required',
-            'member.forward_email' => 'required',
             'member.occupation' => 'required',
             'member.postal_address_1' => 'required',
             'member.postal_address_state' => 'required',
