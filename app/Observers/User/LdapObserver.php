@@ -66,7 +66,7 @@ class LdapObserver
                     $info['deliveryMode'] = 'forwardonly';
                 }
 
-                $sr = ldap_search($conn, $as_ldap, "uid=" . $user->username);
+                $sr = ldap_search($conn, $ldapBase, "uid=" . $user->username);
 
                 if (ldap_count_entries($conn, $sr) > 0) {
                     ldap_delete($conn, $dn);
@@ -74,6 +74,8 @@ class LdapObserver
 
                 ldap_add($conn, $dn, $info);
             }
+            
+            ldap_close($conn);
         }
     }
 }
