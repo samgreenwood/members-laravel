@@ -51,7 +51,7 @@ class LdapObserver
                 $info['objectclass'][3] = 'posixAccount';
                 $info['objectclass'][4] = 'qmailUser';
                 $info['uid'] = $user->username;
-                $info['userpassword'] = $user->password;
+                $info['userpassword'] = '{crypt}' . $user->password;
                 $info['givenname'] = $user->firstname;
                 $info['sn'] = $user->lastname;
                 $info['cn'] = $user->firstname.' '.$user->lastname;
