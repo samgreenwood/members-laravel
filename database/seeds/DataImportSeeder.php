@@ -30,7 +30,7 @@ class DataImportSeeder extends Seeder
             $user = \App\User::create([
                 'id' => $member->id,
                 'username' => $member->username,
-                'password' => bcrypt('a1rs7r34m'),
+                'password' => $member->password,
                 'nas_password' => $member->nas_password,
                 'firstname' => $member->firstname ?? 'Unknown',
                 'surname' => $member->lastname ?? 'Unknown',
