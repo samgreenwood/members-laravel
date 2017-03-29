@@ -170,6 +170,7 @@ return [
         Laravel\Passport\PassportServiceProvider::class,
         Former\FormerServiceProvider::class,
         Sentry\SentryLaravel\SentryLaravelServiceProvider::class,
+        Fideloper\Proxy\TrustedProxyServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -233,5 +234,6 @@ return [
         'Sentry' => Sentry\SentryLaravel\SentryFacade::class,
 
     ],
+    
 
 ];

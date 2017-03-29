@@ -8,6 +8,7 @@
         "anahkiasen/former": "^4.1",
         "braintree/braintree_php": "^3.22",
         "dyrynda/laravel-model-uuid": "^1.0",
+        "fideloper/proxy": "^3.3",
         "laravel/framework": "5.4.*",
         "laravel/passport": "^2.0",
         "laravel/tinker": "~1.0",
