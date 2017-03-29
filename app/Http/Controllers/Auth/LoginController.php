@@ -61,37 +61,11 @@ class LoginController extends Controller
         );
 
         if ($success) {
-            return $success;
+            if (password_needs_rehash($request->input('password'), PASSWORD_DEFAULT)) {
+                auth()->user()->update(['password' => $request->input('password')]);
+            }
         }
 
-        if ($this->isLegacyAuthentication()) {
-            User::where('username', $request->input('username'))->update([
-                'password' => $request->input('password'),
-            ]);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function isLegacyAuthentication()
-    {
-        $user = User::where('username', request('username'))->first();
-
-        if (!$user) {
-            return false;
-        }
-
-        $raw = request('password');
-
-        $encoded = crypt($raw, null);
-        $salt = substr($encoded, 0, 12);
-        $legacy = crypt($raw, $salt);
-
-        return $user->password == $legacy;
+        return $success;
     }
 }

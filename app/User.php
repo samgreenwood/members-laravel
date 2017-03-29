@@ -170,7 +170,7 @@ class User extends Authenticatable
         $salt = substr($encoded, 0, 12);
         $cryptPassword = crypt($value, $salt);
 
-        $this->attributes['password'] = $value;
+        $this->attributes['password'] = bcrypt($value);
         $this->attributes['crypt_password'] = $cryptPassword;
     }
 }
