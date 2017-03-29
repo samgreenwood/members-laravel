@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(config('app.force_https')) {
+            url()->forceScheme('https');
+        }
+
         User::observe(UserLdapObserver::class);
         Group::observe(GroupLdapObserver::class);
     }
