@@ -78,9 +78,9 @@ class GroupController extends Controller
             'name' => 'required',
         ]);
 
-        $group->update(request()->only('name'));
-
         $group->users()->sync(request('users', []));
+
+        $group->update(request()->only('name'));
 
         return redirect()->route('groups.index')->with('message', 'Group Updated');
     }
