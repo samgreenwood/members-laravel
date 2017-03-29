@@ -16,7 +16,7 @@ class ChangePasswordController extends Controller
         ]);
 
         auth()->user()->update([
-            'password' => bcrypt(request('password')),
+            'password' => request('password'),
         ]);
 
         return redirect()->route('settings.index')->with('message', 'Password Updated');
