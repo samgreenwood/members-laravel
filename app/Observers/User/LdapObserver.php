@@ -6,28 +6,13 @@ use App\User;
 
 class LdapObserver
 {
-    /**
-     * @param User $user
-     */
-    public function created(User $user)
-    {
-        $this->sync($user);
-    }
 
     /**
-     * @param User $user
-     */
-    public function updated(User $user)
-    {
-        $this->sync($user);
-    }
-
-    /**
-     * Create the user in LDAP.
+     * Update the user in LDAP.
      *
      * @param User $user
      */
-    private function sync(User $user)
+    public function saved(User $user)
     {
         if (!config('ldap.sync')) {
             return;
@@ -38,11 +23,13 @@ class LdapObserver
         $ldapUsername = config('ldap.username');
         $ldapPassword = config('ldap.password');
 
-        $dn = sprintf('uid=%s,ou=people,%s', $user->username, $ldapBase);
+        $userName = strtolower($user->username);
+
+        $dn = sprintf('uid=%s,ou=people,%s', $userName, $ldapBase);
 
         $conn = ldap_connect($ldapUrl);
 
-        if ($conn) {
+        if ($conn && $userName) {
             $r = ldap_bind($conn, sprintf('cn=%s,%s', $ldapUsername, $ldapBase), $ldapPassword);
             if ($r) {
                 $info['objectclass'][0] = 'person';
@@ -50,28 +37,33 @@ class LdapObserver
                 $info['objectclass'][2] = 'inetOrgPerson';
                 $info['objectclass'][3] = 'posixAccount';
                 $info['objectclass'][4] = 'qmailUser';
-                $info['uid'] = $user->username;
-                $info['userpassword'] = '{crypt}' . $user->crypt_password;
-                $info['givenname'] = $user->firstname;
-                $info['sn'] = $user->lastname;
-                $info['cn'] = $user->firstname.' '.$user->lastname;
+                $info['uid'] = $userName;
+                $info['userpassword'] = '{crypt}'. $user->crypt_password;
+                $info['givenname'] = $user->firstname ?: $userName;
+                $info['sn'] = $user->surname ?: ' ';
+                $info['cn'] = $user->firstname .' '. $user->surname;
                 $info['uidnumber'] = 10000 + $user->id;
                 $info['gidnumber'] = 10000;
-                $info['homedirectory'] = '/home/air-stream/'.$user->username;
-                $info['mail'] = $user->username.'@air-stream.org';
+                $info['homedirectory'] = '/home/air-stream/'. $userName;
+                $info['mail'] = $userName .'@air-stream.org';
                 $info['accountstatus'] = 'active';
-                $info['mailMessageStore'] = '/air-stream/'.$user->username.'/';
+                $info['mailMessageStore'] = '/air-stream/'. $userName .'/';
                 $info['deliveryMode'] = 'localdelivery';
+                $info['description'] = $user->nas_password ?: '';
 
                 if ($user->forward_email) {
-                    $info['mailforwardingaddress'] = $this->email;
+                    $info['mailforwardingaddress'] = $user->email;
                     $info['deliveryMode'] = 'forwardonly';
                 }
 
-                $sr = ldap_search($conn, $ldapBase, 'uid='.$user->username);
+                try {
 
-                if (ldap_count_entries($conn, $sr) > 0) {
-                    ldap_delete($conn, $dn);
+                  $sr = ldap_search($conn, $ldapBase, 'uid='. $userName);
+
+                  if (ldap_count_entries($conn, $sr) > 0) {
+                      ldap_delete($conn, $dn);
+                  }
+                } catch (\ErrorException $e) {
                 }
 
                 ldap_add($conn, $dn, $info);

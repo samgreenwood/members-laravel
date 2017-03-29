@@ -6,28 +6,13 @@ use App\Group;
 
 class LdapObserver
 {
-    /**
-     * @param Group $group
-     */
-    public function created(Group $group)
-    {
-        $this->sync($group);
-    }
 
     /**
-     * @param Group $group
-     */
-    public function updated(Group $group)
-    {
-        $this->sync($group);
-    }
-
-    /**
-     * Create the user in LDAP.
+     * Update the group in LDAP.
      *
      * @param Group $group
      */
-    private function sync(Group $group)
+    public function saved(Group $group)
     {
         if (!config('ldap.sync')) {
             return;
@@ -44,24 +29,31 @@ class LdapObserver
 
         $conn = ldap_connect($ldapUrl);
 
-        if ($conn) {
+        if ($conn && $groupName) {
             $r = ldap_bind($conn, sprintf('cn=%s,%s', $ldapUsername, $ldapBase), $ldapPassword);
             if ($r) {
                 $info['objectclass'][0] = 'top';
                 $info['objectclass'][1] = 'posixGroup';
                 $info['cn'] = $groupName;
-                $info['gidnumber'] = 10000 + $this->getId();
-                $info['memberUid'] = $group->users->pluck('username')->toArray();
-
-                $sr = ldap_search($conn, $ldapBase, 'cn='.$groupName);
-
-                if (ldap_count_entries($conn, $sr) > 0) {
-                    ldap_delete($conn, $dn);
-                } else {
-                    ldap_add($conn, $dn, $info);
+                $info['gidnumber'] = 10000 + $group->id;
+                if ($group->users->count()) {
+                  $info['memberUid'] = array_map('strtolower', $group->users->pluck('username')->toArray());
                 }
-                ldap_close($conn);
+
+                try {
+
+                  $sr = ldap_search($conn, $ldapBase, 'cn='. $groupName);
+
+                  if (ldap_count_entries($conn, $sr) > 0) {
+                      ldap_delete($conn, $dn);
+                  }
+                } catch (\ErrorException $e) {
+                }
+
+                ldap_add($conn, $dn, $info);
             }
+
+            ldap_close($conn);
         }
     }
 }
