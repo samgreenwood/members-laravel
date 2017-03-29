@@ -27,10 +27,11 @@ class DataImportSeeder extends Seeder
         $members = DB::connection('migration')->table('asm_member')->get();
 
         foreach($members as $member) {
-            $user = \App\User::create([
+            $user = App\User::create([
                 'id' => $member->id,
                 'username' => $member->username,
                 'password' => $member->password,
+                'crypt_password' => $member->password,
                 'nas_password' => $member->nas_password,
                 'firstname' => $member->firstname ?? 'Unknown',
                 'surname' => $member->lastname ?? 'Unknown',
@@ -59,6 +60,13 @@ class DataImportSeeder extends Seeder
                 'joined_at' => $member->joined,
                 'expires_at' => $member->expiry,
             ]);
+
+            $user->setRawAttributes([
+                'password' => $member->password,
+                'crypt_password' => $member->password
+            ]);
+
+            $user->save();
 
             $paymentMethods = DB::connection('migration')->table('asm_payment_map')->get()->reduce(function($carry, $payment) {
                 $carry[$payment->id] = $payment->payment_description;

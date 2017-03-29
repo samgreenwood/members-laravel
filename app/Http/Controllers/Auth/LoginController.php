@@ -66,7 +66,7 @@ class LoginController extends Controller
 
         if ($this->isLegacyAuthentication()) {
             User::where('username', $request->input('username'))->update([
-                'password' => bcrypt($request->input('password')),
+                'password' => $request->input('password'),
             ]);
 
             return true;
@@ -87,6 +87,7 @@ class LoginController extends Controller
         }
 
         $raw = request('password');
+
         $encoded = crypt($raw, null);
         $salt = substr($encoded, 0, 12);
         $legacy = crypt($raw, $salt);

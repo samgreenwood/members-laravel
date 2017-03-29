@@ -16,7 +16,7 @@ class EmailObserver
         if ($user->isDirty('approved_at') && $user->approved_at != null) {
             $password = uniqid('airstream');
 
-            $user->update(['password' => bcrypt($password)]);
+            $user->update(['password' => $password]);
 
             Mail::to($user)->send(new MemberWelcome($user, $password));
         }

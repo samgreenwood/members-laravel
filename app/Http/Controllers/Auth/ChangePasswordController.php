@@ -32,7 +32,7 @@ class ChangePasswordController extends Controller
         ]);
 
         auth()->user()->update([
-            'nas_password' => bcrypt(request('nas_password')),
+            'nas_password' => request('nas_password'),
         ]);
 
         return redirect()->route('settings.index')->with('message', 'NAS Password Updated');

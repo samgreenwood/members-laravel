@@ -97,8 +97,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $data['password'] = bcrypt($data['password']);
-
         unset($data['approved_at']);
         unset($data['password_confirmation']);
 

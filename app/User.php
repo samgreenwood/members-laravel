@@ -160,4 +160,17 @@ class User extends Authenticatable
     {
         return $this->expires_at < Carbon::now() ? Carbon::now() : $this->expires_at;
     }
+
+    /**
+     * @param $value
+     */
+    public function setPasswordAttribute($value)
+    {
+        $encoded = crypt($value, null);
+        $salt = substr($encoded, 0, 12);
+        $cryptPassword = crypt($value, $salt);
+
+        $this->attributes['password'] = $value;
+        $this->attributes['crypt_password'] = $cryptPassword;
+    }
 }
