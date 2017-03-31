@@ -49,24 +49,19 @@ class LdapObserver
                 $info['accountstatus'] = 'active';
                 $info['mailMessageStore'] = '/air-stream/'. $userName .'/';
                 $info['deliveryMode'] = 'localdelivery';
-                $info['description'] = $user->nas_password ?: '';
+                $info['description'] = $user->nas_password ?: null;
 
                 if ($user->forward_email) {
                     $info['mailforwardingaddress'] = $user->email;
                     $info['deliveryMode'] = 'forwardonly';
                 }
 
-                try {
+                $sr = ldap_search($conn, $ldapBase, 'uid='. $userName);
 
-                  $sr = ldap_search($conn, $ldapBase, 'uid='. $userName);
-
-                  if (ldap_count_entries($conn, $sr) > 0) {
-                      ldap_delete($conn, $dn);
-                  }
-                } catch (\ErrorException $e) {
+                if (ldap_count_entries($conn, $sr) > 0) {
+                    ldap_delete($conn, $dn);
                 }
-
-                ldap_add($conn, $dn, $info);
+                ldap_add($conn, $dn, array_filter($info));
             }
 
             ldap_close($conn);
