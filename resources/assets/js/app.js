@@ -10,8 +10,11 @@ require('select2');
 require('jquery');
 require('datatables.net');
 require('datatables.net-bs');
+require('bootstrap-datepicker');
 
 $(document).ready(function() {
+    $('input[type=date]').datepicker();
+
     $('.select2').select2();
     $('.table-datatable').DataTable();
 });
