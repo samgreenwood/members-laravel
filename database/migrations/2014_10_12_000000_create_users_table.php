@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -56,8 +57,8 @@ class CreateUsersTable extends Migration
             $table->dateTime('approved_at')->nullable()->default(null);
             $table->string('approval_token')->nullable()->default(null);
 
-            $table->datetime('joined_at');
-            $table->datetime('expires_at');
+            $table->datetime('joined_at')->default(Carbon::now());
+            $table->datetime('expires_at')->default(Carbon::now());
 
             $table->rememberToken();
             $table->timestamps();

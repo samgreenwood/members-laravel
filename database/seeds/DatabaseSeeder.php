@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'firstname' => 'Sam',
             'surname' => 'Greenwood',
             'username' => 'dragoon',
-            'password' => '$1$rve6Ws7t$PODLcpMMr9p/.5/rBqt2q0',
+            'password' => 'password',
             'email' => 'sam@samgreenwood.me',
             'birthday' => \Carbon\Carbon::createFromFormat('Y-m-d', '1990-10-30')
         ]);
