@@ -21,6 +21,10 @@ class AppServiceProvider extends ServiceProvider
             url()->forceScheme('https');
         }
 
+        if(app()->environment('local')) {
+            app()->register(\Barryvdh\Debugbar\ServiceProvider::class);
+        }
+
         User::observe(UserLdapObserver::class);
         Group::observe(GroupLdapObserver::class);
     }

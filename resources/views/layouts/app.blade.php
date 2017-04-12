@@ -54,7 +54,16 @@
                         @else
                             @if(auth()->user()->isCommittee())
                                 <li><a href="{{route('groups.index')}}">Groups</a></li>
-                                <li><a href="{{route('members.index')}}">Members</a></li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Members <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="{{route('members.index')}}">All</a></li>
+                                        <li><a href="{{route('members.index', ['scope' => 'current'])}}">Current</a></li>
+                                        <li><a href="{{route('members.index', ['scope' => 'expired'])}}">Expired</a></li>
+                                        <li><a href="{{route('members.index', ['scope' => 'recentlyExpired'])}}">Recently Expired</a></li>
+                                        <li><a href="{{route('members.index', ['scope' => 'expiringSoon'])}}">Expiring Soon</a></li>
+                                    </ul>
+                                 </li>
                             @endif
                             <li><a href="{{route('profile.index')}}">Profile</a></li>
                             <li class="dropdown">

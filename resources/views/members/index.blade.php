@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Members
+                        Members ({{$scope}}) 
                         <a href="{{route('members.create')}}" class="btn btn-xs pull-right">Add Member</a>
                     </div>
 

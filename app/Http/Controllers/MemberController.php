@@ -13,9 +13,13 @@ class MemberController extends Controller
     {
         $this->authorize('index', User::class);
 
-        $members = User::all();
+        $scope = request('scope') ?? 'select';
+        
+        $members = call_user_func([User::class, $scope])->get();
 
-        return view('members.index', compact('members'));
+        $scope = $scope == "select" ? 'All' : ucwords(str_replace('_', ' ', snake_case($scope)));
+
+        return view('members.index', compact('members', 'scope'));
     }
 
     public function create()
