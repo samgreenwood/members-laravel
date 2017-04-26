@@ -21,6 +21,7 @@ Route::group(['middleware' => 'auth'], function()
         Route::resource('members', 'MemberController');
         Route::resource('memberships', 'MembershipController');
         Route::resource('notes', 'NoteController');
+        Route::resource('payments', 'PaymentController');
     });
 
     Route::post('/password/auth', ['as' => 'password.update.auth', 'uses' => 'Auth\ChangePasswordController@auth']);

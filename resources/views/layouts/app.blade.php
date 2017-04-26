@@ -53,6 +53,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             @if(auth()->user()->isCommittee())
+                                <li><a href="{{route('payments.index')}}">Payments</a></li>
                                 <li><a href="{{route('groups.index')}}">Groups</a></li>
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Members <span class="caret"></span></a>
