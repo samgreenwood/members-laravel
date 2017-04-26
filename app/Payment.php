@@ -14,8 +14,9 @@ class Payment extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function membership()
+    public function member()
     {
-        return $this->belongsTo(Membership::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
+
 }
