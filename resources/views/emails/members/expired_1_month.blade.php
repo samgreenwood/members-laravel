@@ -1,9 +1,13 @@
 @component('mail::message')
 Hi {{$user->firstname}},
 
-Just a friendly reminder to let you know that your Air-Stream Membership has
-now lapsed. Membership is still just $50 a year, and you can renew at any time
-by following the instructions on our website or by accessing our online portal.
+We've noticed your membership expired about a month ago, and thought we'd
+take this opportunity to remind you that Air-Stream membership is still a
+measly $50 per year! As you know, all funds received go directly toward the
+enhancement of our growing network in order to support our loyal members.
+
+You can renew at any time by following the instructions on our website or
+through our online portal.
 
 @component('mail::button', ['url' => route('membership.renew.index')])
     Renew Membership

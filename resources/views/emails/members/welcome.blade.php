@@ -1,6 +1,4 @@
 @component('mail::message')
-# Welcome to Air-Stream Wireless
-
 Hi {{$user->firstname}},
 
 This email confirms that your membership has now been processed.

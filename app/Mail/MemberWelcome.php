@@ -16,14 +16,20 @@ class MemberWelcome extends Mailable
     private $user;
 
     /**
+     * @var string
+     */
+    private $temporaryPassword;
+
+    /**
      * Create a new message instance.
      *
      * @param User $user
-     * @param $temporaryPassword
+     * @param string $temporaryPassword
      */
-    public function __construct(User $user, $temporaryPassword)
+    public function __construct(User $user, string $temporaryPassword)
     {
         $this->user = $user;
+        $this->temporaryPassword = $temporaryPassword;
     }
 
     /**
@@ -33,7 +39,10 @@ class MemberWelcome extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.members.welcome', [
+        return $this
+            ->subject('Welcome to Air-Stream Wireless')
+            ->cc('committee@air-stream.org')
+            ->markdown('emails.members.welcome', [
             'user' => $this->user,
             'temporaryPassword' => $this->temporaryPassword,
         ]);
