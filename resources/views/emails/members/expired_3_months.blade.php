@@ -8,7 +8,7 @@ Unfortunately your Air-Stream membership has been lapsed for over 3 months.
 Please be aware that some of the benefits you have received as an Air-Stream
 member may now be unavailable. This includes but is not limited to:
 
-* Access to the Air-Stream network and node database.
+* Access to the Air-Stream network.
 * Members discounts at several hardware vendors.
 * Network services provided by other Air-Stream members.
 * Your Air-Stream email account.

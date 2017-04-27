@@ -31,7 +31,7 @@ Please be aware that some of the benefits you receive as an Air-Stream member
 may not be available to you after this three month period. This includes but
 is not limited to:
 
-* Access to the Air-Stream network and node database.
+* Access to the Air-Stream network.
 * Members discounts at several hardware vendors.
 * Network services provided by other Air-Stream members.
 * Your Air-Stream email account.
