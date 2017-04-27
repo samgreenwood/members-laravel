@@ -38,7 +38,7 @@ class ProfileController extends Controller
             'member.billing_address_country' => 'required',
         ]);
 
-        auth()->user()->update(request('member'));
+        auth()->user()->update(data_get(request()->except('member.firstname', 'member.surname', 'member.birthday', 'member.username', 'member.referred_by'), 'member'));
 
         return redirect()->route('profile.index')->with('message', 'Profile Updated');
     }
