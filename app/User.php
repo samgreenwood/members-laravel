@@ -46,6 +46,34 @@ class User extends Authenticatable
      {
         return $query->where('expires_at', '<', Carbon::now());
      }
+
+    /**
+     * @return mixed
+     */
+     public function scopeExpiredToday($query)
+     {
+         return $query->where('expires_at', '=', Carbon::now()->format('Y-m-d'));
+     }
+
+    /**
+     * @param $query
+     * @param $months
+     * @return mixed
+     */
+     public function scopeExpiringInMonths($query, $months)
+     {
+         return $query->where('expires_at', '=', Carbon::now()->addMonths($months)->format('Y-m-d'));
+     }
+
+    /**
+     * @param $query
+     * @param $months
+     * @return mixed
+     */
+    public function scopeExpiredMonthsAgo($query, $months)
+    {
+        return $query->where('expires_at', '=', Carbon::now()->subMonths($months)->format('Y-m-d'));
+    }
     
     /**
      * Get all current members
@@ -53,12 +81,11 @@ class User extends Authenticatable
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-
     public function scopeCurrent($query)
     {
         return $query->where('expires_at', '>', Carbon::now());
     }
-     
+
     /**
      * Get all members who expired in the last 3 months
      * 
@@ -67,23 +94,19 @@ class User extends Authenticatable
      */
     public function scopeRecentlyExpired($query)
     {
-        return $query->where('expires_at', '<', Carbon::now())->where('expires_at', '>', Carbon::now()->subMonths(3));
+        return $query->where('expires_at', '<', Carbon::now()->addMonths(3))->where('expires_at', '>', Carbon::now());
     }
-    
+
     /**
      * Get all members who expire in the next 3 months
      * 
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-
     public function scopeExpiringSoon($query)
     {
         return $query->where('expires_at', '<', Carbon::now()->addMonths(3))->where('expires_at', '>', Carbon::now());
     }
-
-
-
 
     /**
      * @param $token

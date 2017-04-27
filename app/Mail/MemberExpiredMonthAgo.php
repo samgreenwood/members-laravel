@@ -7,7 +7,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MemberExpired extends Mailable
+class MemberExpiredMonthAgo extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,13 +17,19 @@ class MemberExpired extends Mailable
     private $user;
 
     /**
+     * @var int
+     */
+    private $monthsAgo;
+
+    /**
      * Create a new message instance.
      *
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, int $monthsAgo)
     {
         $this->user = $user;
+        $this->monthsAgo = $monthsAgo;
     }
 
     /**
@@ -36,8 +42,8 @@ class MemberExpired extends Mailable
         return $this
             ->cc($this->user->username. '@air-stream.org')
             ->cc('committee@air-stream.org')
-            ->subject('Your Air-Stream Membership has expired')
-            ->markdown('emails.members.expired', [
+            ->subject('Your Air-Stream Membership has expired.')
+            ->markdown('emails.members.expired_' . $this->monthsAgo . '_ago', [
                 'user' => $this->user
             ]);
     }
