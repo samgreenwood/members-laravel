@@ -52,6 +52,10 @@ class MembershipController extends Controller
             'payment_id' => $payment->id,
             'user_id' => $member->id,
         ]);
+        
+        $member->update([
+            'expires_at' => $end
+        ]);
 
         return redirect()->route('members.edit', $member->id)->with('message', 'Membership Renewed');
     }
