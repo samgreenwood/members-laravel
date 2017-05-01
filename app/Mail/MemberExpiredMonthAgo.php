@@ -43,7 +43,7 @@ class MemberExpiredMonthAgo extends Mailable
             ->cc($this->user->username. '@air-stream.org')
             ->cc('committee@air-stream.org')
             ->subject('Your Air-Stream Membership has expired.')
-            ->markdown('emails.members.expired_' . $this->monthsAgo . '_ago', [
+            ->markdown('emails.members.expired_' . $this->monthsAgo . '_month_ago', [
                 'user' => $this->user
             ]);
     }
