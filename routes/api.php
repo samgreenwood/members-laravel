@@ -14,5 +14,21 @@ use Illuminate\Http\Request;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+    $user->load('groups');
+
+    return $user;
+});
+
+Route::middleware('auth.api')->get('/members', function() {
+    return \App\User::all()->mapWithKeys(function(\App\User $user) {
+        return [
+            $user->id => [
+                'id' => $user->id,
+                'firstname' => $user->firstname,
+                'surname' => $user->surname,
+                'nickname' => $user->username
+            ]
+        ];
+    });
 });
